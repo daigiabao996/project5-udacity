@@ -136,6 +136,96 @@ jobs:
             - inventory.txt
             - checkIfDeployed.txt
 
+  configure-infrastructure:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout     
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints:
+            - "a2:5f:50:de:6b:ea:78:82:8e:0a:db:d5:80:46:2c:86:51:47:06:49"
+      - attach_workspace:
+          at: ~/    
+      - run:
+          name: Configure server
+          command: |
+             if grep -q "No changes to deploy" ~/checkIfDeployed.txt
+                then
+                  cat ~/inventory.txt
+                  echo "Our management instances are already configured."
+                else
+                  cat ~/inventory.txt                                                                        
+                  cd ansible                  
+                  ansible-playbook -i ~/inventory.txt configure-server.yml
+                fi
+ 
+  configure-cluster:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout     
+      - install_ansible 
+      - add_ssh_keys:
+          fingerprints:
+            - "a2:5f:50:de:6b:ea:78:82:8e:0a:db:d5:80:46:2c:86:51:47:06:49"
+      - attach_workspace:
+          at: ~/                      
+      - run:
+          name: Configure cluster server
+          command: |
+            if grep -q "No changes to deploy" ~/checkIfDeployed.txt
+              then
+                cat ~/inventory.txt
+                echo "Our management instances are already configured."
+              else
+                cd ansible
+                ansible-playbook -i ~/inventory.txt configure-cluster.yml -vvv
+              fi
+      - run:
+          name: Wait for LoadBalancer's domain to become reachable
+          command: |
+            if grep -q "No changes to deploy" ~/checkIfDeployed.txt
+              then
+                cat ~/inventory.txt
+                echo "Our controller instances are already configured."
+              else
+                cat ~/inventory.txt
+                echo "Wait 60 seconds..."
+                sleep 60
+              fi     
+      - run:
+          name: Display the LoadBalancer's DNS name
+          command: |
+            cat ~/inventory.txt
+            cd ansible
+            ansible-playbook -i ~/inventory.txt elb-dns.yml
+            cat > ~/elb_dns.txt
+            cat ~/elb_dns.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - elb_dns.txt
+  
+  deploy-docker:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints: 
+            - "a2:5f:50:de:6b:ea:78:82:8e:0a:db:d5:80:46:2c:86:51:47:06:49"
+      - attach_workspace:
+          at: ~/      
+      - run:
+          name: Deploy newest Docker Image
+          command: |
+            cat ~/inventory.txt            
+            cd ansible
+            ansible-playbook -i ~/inventory.txt deploy-app.yml -vvv
+          no_output_timeout: 2m
+
 workflows:
   default: 
     jobs:
@@ -150,3 +240,13 @@ workflows:
           filters:
             branches:
               only: [ main ]
+      - configure-infrastructure:
+          requires:
+            - deploy-infrastructure
+      - configure-cluster:
+          requires:
+            - configure-infrastructure
+            - upload-docker
+      - deploy-docker:
+          requires:
+            - configure-cluster
