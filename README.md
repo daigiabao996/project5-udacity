@@ -54,7 +54,7 @@ This process makes sure that the code quality is always as good as possible.
 
 #### This is the output when the step passes:
 
-![Linting step fail](./screenshot/lint_success.png)
+![Linting step fail](./screenshot/lint-success.png)
 
 ## Upload Docker Image After Successful Build
 
