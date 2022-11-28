@@ -1,0 +1,56 @@
+Description: >
+  Capstone Project
+  Creates two individual hosts to switch the EKS-Cluster
+Parameters:
+  EnvironmentName:
+    Description: An Environment name that will be prefixed to resources
+    Default: capstone-project
+    Type: String
+  SSHKeyName:
+    Description: SSH key for switch access
+    Default: udacity
+    Type: String
+  amiImageId:
+    Description: Defines the Image-ID of the OS to deploy
+    Default: ami-068663a3c619dd892
+    Type: String
+
+Resources:
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${EnvironmentName}-switch-SG
+      GroupDescription: Allow port 22 for switch
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+  switchHost1:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
+      KeyName: !Ref SSHKeyName
+      ImageId: !Ref amiImageId
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-switch1
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  switchHost2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
+      KeyName: !Ref SSHKeyName
+      ImageId: !Ref amiImageId
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName}-switch2
+        - Key: Project
+          Value: !Ref EnvironmentName
