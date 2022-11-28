@@ -4,6 +4,6 @@
     dest: $HOME
 
 - name: Create service configuration
-  shell: "./bin/kubectl apply -f capstone-service.yml"
+  command: "./bin/kubectl apply -f capstone-service.yml"
   args:
     chdir: $HOME

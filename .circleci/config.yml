@@ -150,15 +150,9 @@ jobs:
       - run:
           name: Configure server
           command: |
-             if grep -q "No changes to deploy" ~/checkIfDeployed.txt
-                then
-                  cat ~/inventory.txt
-                  echo "Our management instances are already configured."
-                else
-                  cat ~/inventory.txt                                                                        
-                  cd ansible                  
-                  ansible-playbook -i ~/inventory.txt configure-server.yml
-                fi
+            cat ~/inventory.txt                                                                        
+            cd ansible                  
+            ansible-playbook -i ~/inventory.txt configure-server.yml
  
   configure-cluster:
     docker:
@@ -174,14 +168,8 @@ jobs:
       - run:
           name: Configure cluster server
           command: |
-            if grep -q "No changes to deploy" ~/checkIfDeployed.txt
-              then
-                cat ~/inventory.txt
-                echo "Our management instances are already configured."
-              else
-                cd ansible
-                ansible-playbook -i ~/inventory.txt configure-cluster.yml -vvv
-              fi
+            cd ansible
+            ansible-playbook -i ~/inventory.txt configure-cluster.yml -vvv
       - run:
           name: Wait for LoadBalancer's domain to become reachable
           command: |
