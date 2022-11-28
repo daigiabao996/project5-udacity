@@ -26,7 +26,7 @@ The CloudFormation Deployment can be broken down into four Parts:
 - **Networking**, to ensure new nodes can communicate with the Cluster
 - **Elastic Kubernetes Service (EKS)** is used to create a Kubernetes Cluster
 - **NodeGroup**, each NodeGroup has a set of rules to define how instances are operated and created for the EKS-Cluster
-- **Toggle** is needed to configure and manage the Cluster and its deployments and services. I created two management hosts for extra redundancy if one of them fails.
+- **Switch** is needed to configure and manage the Cluster and its deployments and services. I created two management hosts for extra redundancy if one of them fails.
 
 #### List of deployed Stacks:
 ![CloudFormation](./screenshot/stacks.png)
@@ -67,13 +67,16 @@ After the EKS-Cluster has been successfully configured using Ansible within the 
 ```
     ##TASK [Get deployment] **********************************************************
     changed: [54.227.124.8] => {
+        "ansible_facts": {
+            "discovered_interpreter_python": "/usr/bin/python3"
+        },
         "changed": true,
-        "cmd": "./bin/kubectl get deployments",
-        "delta": "0:00:00.920119",
-        "end": "2022-11-28 10:07:44.404594",
+        "cmd": "./bin/kubectl set image deployments/****************-deployment ****************-app=******/****************:2da0e633-42bf-4684-816d-ac359173e306",
+        "delta": "0:00:00.930410",
+        "end": "2022-11-28 10:07:36.790603",
         "invocation": {
             "module_args": {
-                "_raw_params": "./bin/kubectl get deployments",
+                "_raw_params": "./bin/kubectl set image deployments/****************-deployment ****************-app=******/****************:2da0e633-42bf-4684-816d-ac359173e306",
                 "_uses_shell": true,
                 "argv": null,
                 "chdir": "/root",
@@ -88,212 +91,14 @@ After the EKS-Cluster has been successfully configured using Ansible within the 
         },
         "msg": "",
         "rc": 0,
-        "start": "2022-11-28 10:07:43.484475",
+        "start": "2022-11-28 10:07:35.860193",
         "stderr": "",
         "stderr_lines": [],
-        "stdout": "NAME                          READY   UP-TO-DATE   AVAILABLE   AGE\n****************-deployment   2/2     2            2           125m",
+        "stdout": "deployment.apps/****************-deployment image updated",
         "stdout_lines": [
-            "NAME                          READY   UP-TO-DATE   AVAILABLE   AGE",
-            "****************-deployment   2/2     2            2           125m"
+            "deployment.apps/****************-deployment image updated"
         ]
     }
-
-    ##TASK [Get service] *************************************************************
-    
-262
-263
-264
-265
-266
-267
-268
-269
-#!/bin/bash -eo pipefail
-cat ~/inventory.txt            
-cd ansible
-ansible-playbook -i ~/inventory.txt deploy-app.yml -vvv
-
-[switch]
-54.227.124.8
-100.24.68.30
-ansible-playbook [core 2.12.10]
-  config file = /home/circleci/project/ansible/ansible.cfg
-  configured module search path = ['/home/circleci/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-  ansible python module location = /usr/lib/python3/dist-packages/ansible
-  ansible collection location = /home/circleci/.ansible/collections:/usr/share/ansible/collections
-  executable location = /usr/bin/ansible-playbook
-  python version = 3.8.10 (default, Jun 22 2022, 20:18:18) [GCC 9.4.0]
-  jinja version = 2.10.1
-  libyaml = True
-Using /home/circleci/project/ansible/ansible.cfg as config file
-host_list declined parsing /home/circleci/inventory.txt as it did not pass its verify_file() method
-script declined parsing /home/circleci/inventory.txt as it did not pass its verify_file() method
-auto declined parsing /home/circleci/inventory.txt as it did not pass its verify_file() method
-yaml declined parsing /home/circleci/inventory.txt as it did not pass its verify_file() method
-Parsed /home/circleci/inventory.txt inventory source with ini plugin
-Skipping callback 'default', as we already have a stdout callback.
-Skipping callback 'minimal', as we already have a stdout callback.
-Skipping callback 'oneline', as we already have a stdout callback.
-
-PLAYBOOK: deploy-app.yml *******************************************************
-1 plays in deploy-app.yml
-
-PLAY [Deploy latest app] *******************************************************
-META: ran handlers
-
-TASK [Update the deployment to run the latest Build] ***************************
-task path: /home/circleci/project/ansible/deploy-app.yml:10
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'echo ~ubuntu && sleep 0'"'"''
-<54.227.124.8> (0, b'/home/ubuntu\n', b"Warning: Permanently added '54.227.124.8' (ECDSA) to the list of known hosts.\r\n")
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/ubuntu/.ansible/tmp `"&& mkdir "` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248 `" && echo ansible-tmp-1669630055.4861653-1458-200007033813248="` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248 `" ) && sleep 0'"'"''
-<54.227.124.8> (0, b'ansible-tmp-1669630055.4861653-1458-200007033813248=/home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248\n', b'')
-<54.227.124.8> Attempting python interpreter discovery
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'echo PLATFORM; uname; echo FOUND; command -v '"'"'"'"'"'"'"'"'python3.10'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.9'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.8'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.7'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.6'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python3.5'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/bin/python3'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/libexec/platform-python'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python2.7'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python2.6'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'/usr/bin/python'"'"'"'"'"'"'"'"'; command -v '"'"'"'"'"'"'"'"'python'"'"'"'"'"'"'"'"'; echo ENDFOUND && sleep 0'"'"''
-<54.227.124.8> (0, b'PLATFORM\nLinux\nFOUND\n/usr/bin/python3.8\n/usr/bin/python3\nENDFOUND\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'/usr/bin/python3.8 && sleep 0'"'"''
-<54.227.124.8> (0, b'{"platform_dist_result": [], "osrelease_content": "NAME=\\"Ubuntu\\"\\nVERSION=\\"20.04 LTS (Focal Fossa)\\"\\nID=ubuntu\\nID_LIKE=debian\\nPRETTY_NAME=\\"Ubuntu 20.04 LTS\\"\\nVERSION_ID=\\"20.04\\"\\nHOME_URL=\\"https://www.ubuntu.com/\\"\\nSUPPORT_URL=\\"https://help.ubuntu.com/\\"\\nBUG_REPORT_URL=\\"https://bugs.launchpad.net/ubuntu/\\"\\nPRIVACY_POLICY_URL=\\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\\"\\nVERSION_CODENAME=focal\\nUBUNTU_CODENAME=focal\\n"}\n', b'')
-Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
-<54.227.124.8> PUT /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmp3br7a6vb TO /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248/AnsiballZ_command.py
-<54.227.124.8> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' '[54.227.124.8]'
-<54.227.124.8> (0, b'sftp> put /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmp3br7a6vb /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248/AnsiballZ_command.py\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'chmod u+x /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248/ /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248/AnsiballZ_command.py && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' -tt 54.227.124.8 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-wmtnwavzzlxvgcaoibidxdxukgdsmglw ; /usr/bin/python3 /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
-Escalation succeeded
-<54.227.124.8> (0, b'\r\n{"changed": true, "stdout": "deployment.apps/****************-deployment image updated", "stderr": "", "rc": 0, "cmd": "./bin/kubectl set image deployments/****************-deployment ****************-app=******/****************:2da0e633-42bf-4684-816d-ac359173e306", "start": "2022-11-28 10:07:35.860193", "end": "2022-11-28 10:07:36.790603", "delta": "0:00:00.930410", "msg": "", "invocation": {"module_args": {"chdir": "/root", "_raw_params": "./bin/kubectl set image deployments/****************-deployment ****************-app=******/****************:2da0e633-42bf-4684-816d-ac359173e306", "_uses_shell": true, "warn": false, "stdin_add_newline": true, "strip_empty_ends": true, "argv": null, "executable": null, "creates": null, "removes": null, "stdin": null}}}\r\n', b'Shared connection to 54.227.124.8 closed.\r\n')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'rm -f -r /home/ubuntu/.ansible/tmp/ansible-tmp-1669630055.4861653-1458-200007033813248/ > /dev/null 2>&1 && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
-changed: [54.227.124.8] => {
-    "ansible_facts": {
-        "discovered_interpreter_python": "/usr/bin/python3"
-    },
-    "changed": true,
-    "cmd": "./bin/kubectl set image deployments/****************-deployment ****************-app=******/****************:2da0e633-42bf-4684-816d-ac359173e306",
-    "delta": "0:00:00.930410",
-    "end": "2022-11-28 10:07:36.790603",
-    "invocation": {
-        "module_args": {
-            "_raw_params": "./bin/kubectl set image deployments/****************-deployment ****************-app=******/****************:2da0e633-42bf-4684-816d-ac359173e306",
-            "_uses_shell": true,
-            "argv": null,
-            "chdir": "/root",
-            "creates": null,
-            "executable": null,
-            "removes": null,
-            "stdin": null,
-            "stdin_add_newline": true,
-            "strip_empty_ends": true,
-            "warn": false
-        }
-    },
-    "msg": "",
-    "rc": 0,
-    "start": "2022-11-28 10:07:35.860193",
-    "stderr": "",
-    "stderr_lines": [],
-    "stdout": "deployment.apps/****************-deployment image updated",
-    "stdout_lines": [
-        "deployment.apps/****************-deployment image updated"
-    ]
-}
-
-TASK [Check if deployment is successful] ***************************************
-task path: /home/circleci/project/ansible/deploy-app.yml:15
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'echo ~ubuntu && sleep 0'"'"''
-<54.227.124.8> (0, b'/home/ubuntu\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/ubuntu/.ansible/tmp `"&& mkdir "` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015 `" && echo ansible-tmp-1669630056.8669384-1472-90101359061015="` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015 `" ) && sleep 0'"'"''
-<54.227.124.8> (0, b'ansible-tmp-1669630056.8669384-1472-90101359061015=/home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015\n', b'')
-Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
-<54.227.124.8> PUT /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmphrvpe9ei TO /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015/AnsiballZ_command.py
-<54.227.124.8> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' '[54.227.124.8]'
-<54.227.124.8> (0, b'sftp> put /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmphrvpe9ei /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015/AnsiballZ_command.py\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'chmod u+x /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015/ /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015/AnsiballZ_command.py && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' -tt 54.227.124.8 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-xdtbfqnuxiooxcjgunyhjiohzmrirppc ; /usr/bin/python3 /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
-Escalation succeeded
-<54.227.124.8> (0, b'\r\n{"changed": true, "stdout": "Waiting for deployment \\"****************-deployment\\" rollout to finish: 1 out of 2 new replicas have been updated...\\nWaiting for deployment \\"****************-deployment\\" rollout to finish: 1 out of 2 new replicas have been updated...\\nWaiting for deployment \\"****************-deployment\\" rollout to finish: 1 out of 2 new replicas have been updated...\\nWaiting for deployment \\"****************-deployment\\" rollout to finish: 1 old replicas are pending termination...\\nWaiting for deployment \\"****************-deployment\\" rollout to finish: 1 old replicas are pending termination...\\ndeployment \\"****************-deployment\\" successfully rolled out", "stderr": "", "rc": 0, "cmd": "./bin/kubectl rollout status deployments/****************-deployment", "start": "2022-11-28 10:07:37.067521", "end": "2022-11-28 10:07:43.210867", "delta": "0:00:06.143346", "msg": "", "invocation": {"module_args": {"chdir": "/root", "_raw_params": "./bin/kubectl rollout status deployments/****************-deployment", "_uses_shell": true, "warn": false, "stdin_add_newline": true, "strip_empty_ends": true, "argv": null, "executable": null, "creates": null, "removes": null, "stdin": null}}}\r\n', b'Shared connection to 54.227.124.8 closed.\r\n')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'rm -f -r /home/ubuntu/.ansible/tmp/ansible-tmp-1669630056.8669384-1472-90101359061015/ > /dev/null 2>&1 && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
-changed: [54.227.124.8] => {
-    "changed": true,
-    "cmd": "./bin/kubectl rollout status deployments/****************-deployment",
-    "delta": "0:00:06.143346",
-    "end": "2022-11-28 10:07:43.210867",
-    "invocation": {
-        "module_args": {
-            "_raw_params": "./bin/kubectl rollout status deployments/****************-deployment",
-            "_uses_shell": true,
-            "argv": null,
-            "chdir": "/root",
-            "creates": null,
-            "executable": null,
-            "removes": null,
-            "stdin": null,
-            "stdin_add_newline": true,
-            "strip_empty_ends": true,
-            "warn": false
-        }
-    },
-    "msg": "",
-    "rc": 0,
-    "start": "2022-11-28 10:07:37.067521",
-    "stderr": "",
-    "stderr_lines": [],
-    "stdout": "Waiting for deployment \"****************-deployment\" rollout to finish: 1 out of 2 new replicas have been updated...\nWaiting for deployment \"****************-deployment\" rollout to finish: 1 out of 2 new replicas have been updated...\nWaiting for deployment \"****************-deployment\" rollout to finish: 1 out of 2 new replicas have been updated...\nWaiting for deployment \"****************-deployment\" rollout to finish: 1 old replicas are pending termination...\nWaiting for deployment \"****************-deployment\" rollout to finish: 1 old replicas are pending termination...\ndeployment \"****************-deployment\" successfully rolled out",
-    "stdout_lines": [
-        "Waiting for deployment \"****************-deployment\" rollout to finish: 1 out of 2 new replicas have been updated...",
-        "Waiting for deployment \"****************-deployment\" rollout to finish: 1 out of 2 new replicas have been updated...",
-        "Waiting for deployment \"****************-deployment\" rollout to finish: 1 out of 2 new replicas have been updated...",
-        "Waiting for deployment \"****************-deployment\" rollout to finish: 1 old replicas are pending termination...",
-        "Waiting for deployment \"****************-deployment\" rollout to finish: 1 old replicas are pending termination...",
-        "deployment \"****************-deployment\" successfully rolled out"
-    ]
-}
-
-TASK [Get deployment] **********************************************************
-changed: [54.227.124.8] => {
-    "changed": true,
-    "cmd": "./bin/kubectl get deployments",
-    "delta": "0:00:00.920119",
-    "end": "2022-11-28 10:07:44.404594",
-    "invocation": {
-        "module_args": {
-            "_raw_params": "./bin/kubectl get deployments",
-            "_uses_shell": true,
-            "argv": null,
-            "chdir": "/root",
-            "creates": null,
-            "executable": null,
-            "removes": null,
-            "stdin": null,
-            "stdin_add_newline": true,
-            "strip_empty_ends": true,
-            "warn": false
-        }
-    },
-    "msg": "",
-    "rc": 0,
-    "start": "2022-11-28 10:07:43.484475",
-    "stderr": "",
-    "stderr_lines": [],
-    "stdout": "NAME                          READY   UP-TO-DATE   AVAILABLE   AGE\n****************-deployment   2/2     2            2           125m",
-    "stdout_lines": [
-        "NAME                          READY   UP-TO-DATE   AVAILABLE   AGE",
-        "****************-deployment   2/2     2            2           125m"
-    ]
-}
 
 TASK [Get service] *************************************************************
 changed: [54.227.124.8] => {
