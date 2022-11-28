@@ -263,27 +263,6 @@ changed: [54.227.124.8] => {
 }
 
 TASK [Get deployment] **********************************************************
-task path: /home/circleci/project/ansible/deploy-app.yml:20
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'echo ~ubuntu && sleep 0'"'"''
-<54.227.124.8> (0, b'/home/ubuntu\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/ubuntu/.ansible/tmp `"&& mkdir "` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161 `" && echo ansible-tmp-1669630063.2840137-1481-233504561090161="` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161 `" ) && sleep 0'"'"''
-<54.227.124.8> (0, b'ansible-tmp-1669630063.2840137-1481-233504561090161=/home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161\n', b'')
-Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
-<54.227.124.8> PUT /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmpz0r8yzq0 TO /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161/AnsiballZ_command.py
-<54.227.124.8> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' '[54.227.124.8]'
-<54.227.124.8> (0, b'sftp> put /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmpz0r8yzq0 /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161/AnsiballZ_command.py\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'chmod u+x /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161/ /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161/AnsiballZ_command.py && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' -tt 54.227.124.8 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-stbniovlinerqxyphmkqxyghhbjtaweg ; /usr/bin/python3 /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
-Escalation succeeded
-<54.227.124.8> (0, b'\r\n{"changed": true, "stdout": "NAME                          READY   UP-TO-DATE   AVAILABLE   AGE\\n****************-deployment   2/2     2            2           125m", "stderr": "", "rc": 0, "cmd": "./bin/kubectl get deployments", "start": "2022-11-28 10:07:43.484475", "end": "2022-11-28 10:07:44.404594", "delta": "0:00:00.920119", "msg": "", "invocation": {"module_args": {"chdir": "/root", "_raw_params": "./bin/kubectl get deployments", "_uses_shell": true, "warn": false, "stdin_add_newline": true, "strip_empty_ends": true, "argv": null, "executable": null, "creates": null, "removes": null, "stdin": null}}}\r\n', b'Shared connection to 54.227.124.8 closed.\r\n')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'rm -f -r /home/ubuntu/.ansible/tmp/ansible-tmp-1669630063.2840137-1481-233504561090161/ > /dev/null 2>&1 && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
 changed: [54.227.124.8] => {
     "changed": true,
     "cmd": "./bin/kubectl get deployments",
@@ -317,27 +296,6 @@ changed: [54.227.124.8] => {
 }
 
 TASK [Get service] *************************************************************
-task path: /home/circleci/project/ansible/deploy-app.yml:25
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'echo ~ubuntu && sleep 0'"'"''
-<54.227.124.8> (0, b'/home/ubuntu\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo /home/ubuntu/.ansible/tmp `"&& mkdir "` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365 `" && echo ansible-tmp-1669630064.479204-1490-208543412942365="` echo /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365 `" ) && sleep 0'"'"''
-<54.227.124.8> (0, b'ansible-tmp-1669630064.479204-1490-208543412942365=/home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365\n', b'')
-Using module file /usr/lib/python3/dist-packages/ansible/modules/command.py
-<54.227.124.8> PUT /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmpa679782x TO /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365/AnsiballZ_command.py
-<54.227.124.8> SSH: EXEC sftp -b - -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' '[54.227.124.8]'
-<54.227.124.8> (0, b'sftp> put /home/circleci/.ansible/tmp/ansible-local-1452af7a5i0f/tmpa679782x /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365/AnsiballZ_command.py\n', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'chmod u+x /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365/ /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365/AnsiballZ_command.py && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' -tt 54.227.124.8 '/bin/sh -c '"'"'sudo -H -S -n  -u root /bin/sh -c '"'"'"'"'"'"'"'"'echo BECOME-SUCCESS-rxdfacvelncvnrndebzhxfvtepbxkudj ; /usr/bin/python3 /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365/AnsiballZ_command.py'"'"'"'"'"'"'"'"' && sleep 0'"'"''
-Escalation succeeded
-<54.227.124.8> (0, b'\r\n{"changed": true, "stdout": "NAME                       TYPE           CLUSTER-IP       EXTERNAL-IP                                                             PORT(S)        AGE\\n****************-service   LoadBalancer   10.100.140.191   a6e3d22241f79425eac805cd4a1225a3-19011954.*********.elb.amazonaws.com   80:31706/TCP   88m\\nkubernetes                 ClusterIP      10.100.0.1       <none>                                                                  443/TCP        174m", "stderr": "", "rc": 0, "cmd": "./bin/kubectl get services", "start": "2022-11-28 10:07:44.682873", "end": "2022-11-28 10:07:45.606117", "delta": "0:00:00.923244", "msg": "", "invocation": {"module_args": {"chdir": "/root", "_raw_params": "./bin/kubectl get services", "_uses_shell": true, "warn": false, "stdin_add_newline": true, "strip_empty_ends": true, "argv": null, "executable": null, "creates": null, "removes": null, "stdin": null}}}\r\n', b'Shared connection to 54.227.124.8 closed.\r\n')
-<54.227.124.8> ESTABLISH SSH CONNECTION FOR USER: ubuntu
-<54.227.124.8> SSH: EXEC ssh -C -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o KbdInteractiveAuthentication=no -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey -o PasswordAuthentication=no -o 'User="ubuntu"' -o ConnectTimeout=10 -o 'ControlPath="/home/circleci/.ansible/cp/d891129233"' 54.227.124.8 '/bin/sh -c '"'"'rm -f -r /home/ubuntu/.ansible/tmp/ansible-tmp-1669630064.479204-1490-208543412942365/ > /dev/null 2>&1 && sleep 0'"'"''
-<54.227.124.8> (0, b'', b'')
 changed: [54.227.124.8] => {
     "changed": true,
     "cmd": "./bin/kubectl get services",
@@ -374,4 +332,4 @@ changed: [54.227.124.8] => {
 
 Public LB DNS: http://a6e3d22241f79425eac805cd4a1225a3-19011954.us-east-1.elb.amazonaws.com/
 
-![Access LB DNS](./screenshot-p5/dns.png)
+![Access LB DNS](./screenshot/dns.png)
